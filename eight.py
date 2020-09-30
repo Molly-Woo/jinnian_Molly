@@ -5,7 +5,7 @@ import datetime
 import sys
 
 BLOCK = []  # 给定状态
-GOAL = [[1,2,3],[4,5,6],[7,8,0]]  # 目标状态
+GOAL = [[1,2,3],[4,5,0],[7,8,9]]  # 目标状态
 
 # 4个方向
 direction = [[0, 1], [0, -1], [1, 0], [-1, 0]]
@@ -131,7 +131,7 @@ def swap(a,b,bl):#bl==BL
     for x in arr1:
         print(x,end=' ' if x!=arr1[-1] else '',file=data)
     #print(arr1,end=' ',file=data)
-    data.close()
+    #data.close()
     start()
             
 #计算逆序对1
@@ -170,7 +170,6 @@ def free_change(block0):
 
                 free_change1 = i*3+j+1
                 free_change2 = i*3+j+2
-                print("swap:",free_change1,free_change2)
                 
                 print("自由交换后 ：")
                 for i in block0:
@@ -236,9 +235,12 @@ def print_path(node):
                     xx=i
                     yy=j
                     if block==GOAL:
-                        print("Got it! ans : ")
+                        print("Got it!  ")
+                        print("swap:",free_change1,free_change2)
+                        print("Operations：")
                         for x in ans:
                             print(x,end = '')
+                        
                         sys.exit(0);
         a=3
         b=2
@@ -253,7 +255,6 @@ def print_path(node):
     while len(stack) != 0:
         t = stack.pop()
         show_block(t)
-        
         
     return num
 
@@ -381,14 +382,18 @@ def start():
             print("自由交换前 ： ")
             print(BLOCK)
             BLOCK=free_change(BLOCK)
+            flag=0
+            OPEN = [];
         start_t = datetime.datetime.now()
         # 这里添加5秒超时处理，可以根据实际情况选择启发函数
         length = A_start(BLOCK, GOAL, manhattan_dis, generate_child, time_limit=10)
+        
         end_t = datetime.datetime.now()
         if length != -1:
             print("length =", length)
             print("time = ", (end_t - start_t).total_seconds(), "s")
             print("Nodes =", SUM_NODE_NUM)
+        
 
 if __name__ == '__main__':
     start()
