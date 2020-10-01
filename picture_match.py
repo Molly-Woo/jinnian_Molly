@@ -19,9 +19,9 @@ def image_contrast(name1,name2):
     return result   #result==0.0表示一样
 
 def get_goal():
-    filepath0='C:\\Users\\10790\\AppData\\Local\\Programs\\Python\\Python37-32\\test'
+    filepath0='./test/'
     pathdir0 = os.listdir(filepath0)
-    filepath = 'C:\\Users\\10790\\AppData\\Local\\Programs\\Python\\Python37-32\\picture'
+    filepath = './picture/'
     pathdir = os.listdir(filepath)
     for cur0 in pathdir0:
         name1 = os.path.join(filepath0,cur0)  #路径拼接成绝对路径
