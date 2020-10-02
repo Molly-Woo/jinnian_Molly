@@ -1,36 +1,34 @@
-import function.getsend as getsendfunction
-import function.check_picture as checkpicturefunction
-import function.cut as picturecutfunction
+import function.getsend as gs_function
+import function.check_picture as check_function
+import function.cut as cut_function
+import function.eight as eight_function
 import base64
-import os
 from PIL import Image
-import cv2
-import function.eight as eightfunction
 
 if __name__ == '__main__':
-    getdata = getsendfunction.getpicture()
-    step = getdata['step']
-    swap = getdata['swap']
-    uuid = getdata['uuid']
-    image_byte = base64.b64decode(getdata['img'])
+    get_data = gs_function.getpicture()
+    step = get_data['step']
+    swap = get_data['swap']
+    uuid = get_data['uuid']
+    image_byte = base64.b64decode(get_data['img'])
     image_json = open("a.jpg", 'wb')
     image_json.write(image_byte)
     image_json.close()
 
     image = Image.open('a.jpg')
-    image_list = picturecutfunction.cut_image(image)
-    picturecutfunction.save_images(image_list, ord('a'))
+    image_list = cut_function.cut_image(image)
+    cut_function.save_images(image_list, ord('a'))
 
-    pathtest = "./test/"
-    pathsuffix = ".png"
-    pathfile = "picture/"
+    path_test = "./test/"
+    path_suffix = ".png"
+    path_file = "picture/"
     picture_order = 0
     for i in range (ord("a") , ord("i")+1) :
-        path1 = pathtest + chr(i) +pathsuffix
+        path1 = path_test + chr(i) + path_suffix
         same_number = 0
         for j in range (324) :
-            path2 = pathfile + str(j) + pathsuffix
-            result = checkpicturefunction.image_contrast(path1, path2)
+            path2 = path_file + str(j) + path_suffix
+            result = check_function.image_contrast(path1, path2)
             if result == 0.0:
                 #print(j)
                 picture_order = j
@@ -41,11 +39,11 @@ if __name__ == '__main__':
 
     targets = []
     for i in range(ord("a"), ord("i") + 1):
-        path1 = pathtest + chr(i) + pathsuffix
+        path1 = path_test + chr(i) + path_suffix
         flag = 0
         for j in range(picture_order * 9 , picture_order * 9 + 9):
-            path2 = pathfile + str(j) + pathsuffix
-            result = checkpicturefunction.image_contrast(path1, path2)
+            path2 = path_file + str(j) + path_suffix
+            result = check_function.image_contrast(path1, path2)
             if result == 0.0 :
                 targets.append(j % 9 + 1)
                 flag = 1
@@ -54,9 +52,9 @@ if __name__ == '__main__':
             targets.append(0)
     #print(targets)
 
-    result = eightfunction.start(step , swap[0] , swap[1])
-    thepath = result[0]
-    theswap = []
-    theswap.append(0 , result[1])
-    theswap.append(1 , result[2])
-    getsendfunction.sendpicture(thepath, theswap, uuid)
+    result = eight_function.start(step, swap[0], swap[1])
+    result_path = result[0]
+    result_swap = []
+    result_swap.append(result[1])
+    result_swap.append(result[2])
+    gs_function.sendpicture(result_path, result_swap, uuid)
