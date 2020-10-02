@@ -52,7 +52,12 @@ if __name__ == '__main__':
             targets.append(0)
     #print(targets)
 
-    result = eight_function.start(step, swap[0], swap[1])
+    block = [[] , [] , []]
+    for i in range (3) :
+        for i in range (3) :
+            block[i][j] = targets[i * 3 + j]
+
+    result = eight_function.start(block , step, swap[0], swap[1])
     result_path = result[0]
     result_swap = []
     result_swap.append(result[1])
