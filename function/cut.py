@@ -24,8 +24,8 @@ def cut_image(image):
     return image_list
 #保存
 def save_images(image_list , index):
-    save_path = "./picture/"
-    #save_path = "./"
+    #save_path = "../picture/"#文件存储路径
+    save_path = "../test/"
     for image in image_list:
         image.save(save_path + str(index) + '.png', 'PNG')
         index += 1
