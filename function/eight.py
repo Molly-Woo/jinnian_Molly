@@ -10,7 +10,7 @@ from functools import reduce
 import os
 
 BLOCK = [[2, 5, 0], [3, 4, 1], [7, 8,9]]  # 给定状态
-GOAL = [[1,2,3],[4,5,0],[7,8,9]]  # 目标状态
+GOAL = [[0,0,0],[0,0,0],[0,0,0]]  # 目标状态
 
 # 4个方向
 direction = [[0, 1], [0, -1], [1, 0], [-1, 0]]
@@ -21,26 +21,31 @@ OPEN = []
 # 节点的总数
 SUM_NODE_NUM = 0
 
-def get_goal():
-    array = []
-    filepath0='./test/'
-    pathdir0 = os.listdir(filepath0)
+#求目标状态
+def get_goal():    
+    arr0 = BLOCK
+    new1 = []
+    new2 = []
     
+    for i in range(3):
+        for j in range(3):
+            new1.append(arr0[i][j]);
+                
     for i in range(1,10):
         flag_goal = 0
-        for cur0 in pathdir0:
-            if str(os.path.splitext(cur0)[0]) == str(i):
-                array.append(i)
+        for j in new1:
+            if str(j) == str(i):
+                new2.append(i)
                 flag_goal = 1
                 break;
         if flag_goal == 0:
-            array.append(0)
-    print(array)
-    coun = 0
-    for i in range(0,2):
-        for j in range(0,2):
-            GOAL[i][j] = array[coun]
-            coun+=1
+            new2.append(0)
+    new1 = new2
+    num = 0
+    for i in range(0,3):
+        for j in range(0,3):
+            GOAL[i][j] = new1[num]
+            num+=1
     return GOAL
 
 # 状态节点
@@ -141,41 +146,14 @@ def generate_child(cur_node, end_node, hash_set, open_table, dis_fn):
                 cur_node.child.append(node)  # 加入到孩子队列
                 heapq.heappush(open_table, node)  # 加入到堆中
 
-def get_goal():    
-    arr0 = BLOCK
-    #print(block)
-    new = []
-        
-    for i in range(3):
-        for j in range(3):
-            new.append(arr0[i][j]);
-    print("new:",new)
-                
-    for i in range(1,10):
-        flag_goal = 0
-        for j in new:
-            if str(j) == str(i):
-                GOAL.append(i)
-                flag_goal = 1
-                break;
-        if flag_goal == 0:
-            GOAL.append(0)
-
 #强制交换
 def swap(a,b,blo):
     blo[int((a-1)/3)][(a-1)%3],blo[int((b-1)/3)][(b-1)%3]=blo[int((b-1)/3)][(b-1)%3],blo[int((a-1)/3)][(a-1)%3]
-    
+    '''
     print("强制交换后 ： ")
     for i in blo:
         print(i)
     '''
-    arr1 = []
-    for i in range(3):
-        for j in range(3):
-                arr1.append(bl[i][j]);
-    '''
-    #BLOCK = bl
-    
     start(blo,10000,10,10)
             
 #计算逆序对1
@@ -190,7 +168,6 @@ def inverse_number(arr):
 def Reverse_pair(block):
     
     arr0 = block
-    #print(block)
     arr = []
         
     for i in range(3):
@@ -216,11 +193,11 @@ def free_change(block0):
 
                 free_change1 = i*3+j+1
                 free_change2 = i*3+j+2
-                
+                '''
                 print("自由交换后 ：")
                 for i in block0:
                     print(i)
-                    
+                '''   
                 return block0;
                 
 
@@ -246,38 +223,36 @@ def print_path(node,step,a,b):
         global yy
         global cnt
         global mark
-
-        step=2
-        
+        '''
         print("---------------")
         for b0 in block:
             print(b0)
+        '''
         cnt+=1
-        print("cnt ： ",cnt)
         #输出操作序列
         for i in range(3):
             for j in range(3):
                 if block[i][j]==0:
-
+                    '''
                     print(xx)
                     print(yy)
-                                        
+                    '''                    
                     if flag==0:
                         xx=i
                         yy=j
                         flag=1;
                     elif cnt!=step+2:
                         if xx==i and yy>j:
-                            print("a")
+                            #print("a")
                             operation.append("a")
                         elif xx==i and yy<j:
-                            print("d")
+                            #print("d")
                             operation.append("d")
                         elif xx<i and yy==j:
-                            print("s")
+                            #print("s")
                             operation.append("s")
                         else:
-                            print("w")
+                            #print("w")
                             operation.append("w")
                     xx=i
                     yy=j
@@ -285,6 +260,7 @@ def print_path(node,step,a,b):
         if cnt==step+1:
             swap(a,b,block)
             mark = 1
+        '''
         if block==GOAL:
             print("Got it!  ")
             print("swap:",free_change1,free_change2)
@@ -293,6 +269,7 @@ def print_path(node,step,a,b):
                 print(x,end = '')
             print()
             #sys.exit(0);
+        '''
     stack = []  # 模拟栈
     stack.clear()
     while node.par is not None:
@@ -321,15 +298,16 @@ def A_start(step,a,b,start, end, distance_fn, generate_child_fn, time_limit=10):
     OPEN = []
     root = State(0, 0, start, hash(str(BLOCK)), None)  # 根节点
     end_state = State(0, 0, end, hash(str(GOAL)), None)  # 最后的节点
+    '''
     if root == end_state:
         print("start == end !")
-
+    '''
     OPEN.append(root)
     heapq.heapify(OPEN)
 
     node_hash_set = set()  # 存储节点的哈希值
     node_hash_set.add(root.hash_value)
-    start_time = datetime.datetime.now()
+    #start_time = datetime.datetime.now()
     while len(OPEN) != 0:
         top = heapq.heappop(OPEN)
         if top == end_state:  # 结束后直接输出路径
@@ -337,62 +315,45 @@ def A_start(step,a,b,start, end, distance_fn, generate_child_fn, time_limit=10):
         # 产生孩子节点，孩子节点加入OPEN表
         generate_child_fn(cur_node=top, end_node=end_state, hash_set=node_hash_set,
                           open_table=OPEN, dis_fn=distance_fn)
-        
+        '''
         cur_time = datetime.datetime.now()
         # 超时处理
         if (cur_time - start_time).seconds > time_limit:
             print("Time running out, break !")
             print("Number of nodes:", SUM_NODE_NUM)
             return -1
-        
+        '''
+    '''
     print("No road !")  # 没有路径
+    '''
     return -1
-
-'''
-def read_block(block, line, N):
-
-    读取一行数据作为原始状态
-    :param block: 原始状态
-    :param line: 一行数据
-    :param N: 数据的总数
-    :return: None
-
-    pattern = re.compile(r'\d+')  # 正则表达式提取数据
-    res = re.findall(pattern, line)
-    t = 0
-    tmp = []
-    for i in res:
-        t += 1
-        tmp.append(int(i))
-        if t == N:
-            t = 0
-            block.append(tmp)
-            tmp = []
-'''
 
     
 def start(BLOCK,step,a,b):    
     flag=0
     NUMBER = 3  #N的取值
-    #get_goal()
+    GOAL = get_goal()
 
     OPEN = []  # 这里别忘了清空
     #BLOCK = []
     #read_block(BLOCK, line, NUMBER)
     SUM_NODE_NUM = 0
     if Reverse_pair(BLOCK):
-        print("有解")
+        #print("有解")
         flag=0
         OPEN = []
     else:
+        '''
         print("无解")
         print("自由交换前 ： ")
         print(BLOCK)
+        '''
         BLOCK=free_change(BLOCK)
-        print(BLOCK)
         flag=0
         OPEN = [];
-    #start_t = datetime.datetime.now()
+    '''
+    start_t = datetime.datetime.now()
+    '''
     # 这里添加5秒超时处理，可以根据实际情况选择启发函数
     length = A_start(step,a,b,BLOCK, GOAL, manhattan_dis, generate_child, time_limit=10)
     '''    
