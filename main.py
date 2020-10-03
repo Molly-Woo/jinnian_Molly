@@ -8,7 +8,7 @@ from PIL import Image
 if __name__ == '__main__':
     get_data = gs_function.getpicture()
     step = get_data['step']
-    swap = get_data['swap']
+    swapp = get_data['swap']
     uuid = get_data['uuid']
     image_byte = base64.b64decode(get_data['img'])
     image_json = open("a.jpg", 'wb')
@@ -57,8 +57,12 @@ if __name__ == '__main__':
         for j in range (0 , 3) :
             block[i].append(targets[i * 3 + j])
 
-    result = eight_function.start(block , step, swap[0], swap[1])
-    print(result[0])
+    print(block)
+    print(step)
+    print(swapp)
+    result = eight_function.start(block, step, swapp[0], swapp[1])
+    print(result)
+
     result_path = result[0]
     result_path = ",".join(result_path)
     result_swap = []
