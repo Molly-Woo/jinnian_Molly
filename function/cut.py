@@ -1,6 +1,6 @@
 from PIL import Image
 import os
-import sys
+
 def get_fileNames(rootdir):
 	fs = []
 	for root, dirs, files in os.walk(rootdir,topdown = True):
@@ -25,12 +25,13 @@ def cut_image(image):
 #保存
 def save_images(image_list , index):
     #save_path = "../picture/"#文件存储路径
-    save_path = "../test/"
+    save_path = "./test/"
     for image in image_list:
-        image.save(save_path + str(index) + '.png', 'PNG')
+        image.save(save_path + chr(index) + '.png', 'PNG')
         index += 1
 
 if __name__ == '__main__':
+    '''
     a = get_fileNames("无框字符")
     index = 0
     for i in range (len(a)) :
@@ -38,6 +39,7 @@ if __name__ == '__main__':
         image_list = cut_image(image)
         save_images(image_list , index)
         index += 9
-    #image = Image.open('a.jpg')
-    #image_list = cut_image(image)
-    #save_images(image_list, ord('a'))
+    '''
+    image = Image.open('a.jpg')
+    image_list = cut_image(image)
+    save_images(image_list, ord('a'))
