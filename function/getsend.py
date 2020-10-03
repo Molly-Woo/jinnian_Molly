@@ -18,7 +18,6 @@ def sendpicture(thepath , theswap , theuuid) :
     data["uuid"] = theuuid
     data["anwser"] = anwser
     json.dumps(data)
-    #print(data)
     # 字符串格式
     res = requests.post(url=url, data=data)
-    print(res.text)
+    print(res)

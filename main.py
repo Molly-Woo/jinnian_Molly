@@ -65,6 +65,7 @@ if __name__ == '__main__':
 
     result_path = result[0]
     result_path = ",".join(result_path)
+    print(result_path)
     result_swap = []
     result_swap.append(result[1])
     result_swap.append(result[2])
