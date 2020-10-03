@@ -9,7 +9,7 @@ import operator
 from functools import reduce
 import os
 
-BLOCK = [[2, 5, 0], [3, 4, 1], [7, 8,9]]  # 给定状态
+BLOCK = [[0,0,0],[0,0,0],[0,0,0]]  # 给定状态
 GOAL = [[0,0,0],[0,0,0],[0,0,0]]  # 目标状态
 
 # 4个方向
@@ -366,4 +366,5 @@ def start(BLOCK,step,a,b):
     return operation,free_change1,free_change2
 
 if __name__ == '__main__':
-    print(start(BLOCK,2,2,3))   #step=2,a=2,b=3
+    BLOCK = [[2, 0, 4], [3, 7, 8], [6, 9, 1]]
+    print(start(BLOCK,18,9,7))   #step=2,a=2,b=3
