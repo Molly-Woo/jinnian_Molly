@@ -8,7 +8,7 @@ def inverse_number(arr):
 
 def Reverse_pair():
     
-    arr0 = [[1,6,3],[4,5,0],[8,7,2]]
+    arr0 = [[0,7,8],[9,5,6],[2,3,4]]
     arr = []
         
     for i in range(3):

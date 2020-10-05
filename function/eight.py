@@ -21,6 +21,12 @@ OPEN = []
 # 节点的总数
 SUM_NODE_NUM = 0
 
+flag=0  #标记是否为第一次的位置
+operation = []    #操作序列
+xx=-1
+yy=-1
+cnt=0
+mark = 0
 #求目标状态
 def get_goal():    
     arr0 = BLOCK
@@ -149,36 +155,66 @@ def generate_child(cur_node, end_node, hash_set, open_table, dis_fn):
 #强制交换
 def swap(a,b,blo):
     blo[int((a-1)/3)][(a-1)%3],blo[int((b-1)/3)][(b-1)%3]=blo[int((b-1)/3)][(b-1)%3],blo[int((a-1)/3)][(a-1)%3]
-    '''
+    
     print("强制交换后 ： ")
     for i in blo:
         print(i)
-    '''
-    start(blo,10000,10,10)
-            
-#计算逆序对1
-def inverse_number(arr):
-    ans = 0
-    for i in range(len(arr)):
-        for j in range(i):
-            if arr[j] > arr[i]:
-                ans += 1
-    return ans
-#计算逆序对2
-def Reverse_pair(block):
     
-    arr0 = block
-    arr = []
-        
+    start(blo,10000,10,10)
+    
+#计算逆序对1
+def InversionNum(lst):
+    # 改写归并排序,在归并排序中，每当R部分元素先于L部分元素插入原列表时，逆序对数要加L剩余元素数
+    if len(lst) == 1:
+        return lst,0
+    else:
+        n = len(lst) // 2
+        lst1,count1 = InversionNum(lst[0:n])
+        lst2,count2 = InversionNum(lst[n:len(lst)])
+        lst,count = Count(lst1,lst2,0)
+        return lst,count1+count2+count
+#计算逆序对2
+def Count(lst1, lst2,count): 
+    i = 0
+    j = 0
+    res = []
+    while i < len(lst1) and j < len(lst2):
+        if lst1[i] <= lst2[j]:
+            res.append(lst1[i])
+            i += 1
+        else:
+            res.append(lst2[j])
+            count += len(lst1)-i # 当右半部分的元素先于左半部分元素进入有序列表时，逆序对数量增加左半部分剩余的元素数
+            j += 1
+    res += lst1[i:]
+    res += lst2[j:]
+    return res,count
+
+#计算逆序对3
+def check_reverse_pair(block1,block2):
+    arr1 = block1
+    array1 = []
+            
     for i in range(3):
         for j in range(3):
-            if arr0[i][j]!=0:
-                arr.append(arr0[i][j]);
-
-    if inverse_number(arr)%2==0:
-        return True;
-    else:
+            if arr1[i][j]!=0:
+                array1.append(arr1[i][j]);
+                
+    arr2 = block2
+    array2 = []
+            
+    for i in range(3):
+        for j in range(3):
+            if arr2[i][j]!=0:
+                array2.append(arr2[i][j]);
+                
+    x1,y1 = InversionNum(array1)
+    x2,y2 = InversionNum(array2)
+    
+    if  y1%2 != y2%2:
         return False
+    else:
+        return True
 
 #自由交换
 free_change1 = 0    #自由交换的位置
@@ -193,21 +229,65 @@ def free_change(block0):
 
                 free_change1 = i*3+j+1
                 free_change2 = i*3+j+2
-                '''
+                
                 print("自由交换后 ：")
                 for i in block0:
                     print(i)
-                '''   
+                   
                 return block0;
-                
+#强制交换前                
+def before_swap(block,step,a,b):
+    global cnt
+    flag2 = 0
+    if step%2 != 0:
+        for i in range(0,3):
+            for j in range(0,3):
+                if block[i][j]==0 and i-1>=0:
+                    block[i][j],block[i-1][j]=block[i-1][j],block[i][j]
+                    flag2 = 1
+                    operation.append('da'*int(step/2)+'d')
+                    break
+                elif block[i][j]==0 and i+1<=2:
+                    block[i][j],block[i+1][j]=block[i+1][j],block[i][j]
+                    flag2 = 1
+                    operation.append('ad'*int(step/2)+'a')
+                    break
+                elif block[i][j]==0 and j-1>=0:
+                    block[i][j],block[i][j-1]=block[i][j-1],block[i][j]
+                    flag2 = 1
+                    operation.append('sw'*int(step/2)+'s')
+                    break
+                elif block[i][j]==0 and j+1<=2:
+                    block[i][j],block[i][j+1]=block[i][j+1],block[i][j]
+                    flag2 = 1
+                    operation.append('ws'*int(step/2)+'w')
+                    break
+            if flag2 == 1:
+                break
+    else:
+        for i in range(0,3):
+            for j in range(0,3):
+                if block[i][j]==0 and i-1>=0:
+                    flag2 = 1
+                    operation.append('da'*int(step/2))
+                    break
+                elif block[i][j]==0 and i+1<=2:
+                    flag2 = 1
+                    operation.append('ad'*int(step/2))
+                    break
+                elif block[i][j]==0 and j-1>=0:
+                    flag2 = 1
+                    operation.append('sw'*int(step/2))
+                    break
+                elif block[i][j]==0 and j+1<=2:
+                    flag2 = 1
+                    operation.append('ws'*int(step/2))
+                    break
+            if flag2 == 1:
+                break
+        cnt += step
+        swap(a,b,block)
 
-
-flag=0  #标记是否为第一次的位置
-operation = []    #操作序列
-xx=-1
-yy=-1
-cnt=0
-mark = 0
 def print_path(node,step,a,b):
     '''
     输出路径
@@ -223,11 +303,11 @@ def print_path(node,step,a,b):
         global yy
         global cnt
         global mark
-        '''
+        
         print("---------------")
         for b0 in block:
             print(b0)
-        '''
+        
         cnt+=1
         #输出操作序列
         for i in range(3):
@@ -338,19 +418,22 @@ def start(BLOCK,step,a,b):
     #BLOCK = []
     #read_block(BLOCK, line, NUMBER)
     SUM_NODE_NUM = 0
-    if Reverse_pair(BLOCK):
+    if check_reverse_pair(BLOCK,GOAL):
         #print("有解")
         flag=0
         OPEN = []
     else:
-        '''
+        
         print("无解")
-        print("自由交换前 ： ")
-        print(BLOCK)
-        '''
-        BLOCK=free_change(BLOCK)
-        flag=0
-        OPEN = [];
+        if cnt == 0:
+            before_swap(BLOCK,step,a,b)
+        else:
+            print("自由交换前 ： ")
+            print(BLOCK)
+        
+            BLOCK=free_change(BLOCK)
+            flag=0
+            OPEN = [];
     '''
     start_t = datetime.datetime.now()
     '''
@@ -366,5 +449,5 @@ def start(BLOCK,step,a,b):
     return operation,free_change1,free_change2
 
 if __name__ == '__main__':
-    BLOCK = [[2, 0, 4], [3, 7, 8], [6, 9, 1]]
-    print(start(BLOCK,18,9,7))   #step=2,a=2,b=3
+    BLOCK = [[1, 3, 9], [2, 8, 0], [5, 6, 4]]
+    print(start(BLOCK,10,5,6))   #step=2,a=2,b=3
