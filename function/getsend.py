@@ -9,15 +9,16 @@ def getpicture():
     return r
 
 def sendpicture(thepath , theswap , theuuid) :
-    import requests
     url = "http://47.102.118.1:8089/api/answer"
-    anwser = {}
-    anwser["operation"] = thepath
-    anwser["theswap"] = theswap
+
+    answer = {}
+    answer["operations"] = thepath
+    answer["swap"] = theswap
+
     data = {}
     data["uuid"] = theuuid
-    data["anwser"] = anwser
-    json.dumps(data)
+    data["answer"] = answer
+    print(json.dumps(data) )
     # 字符串格式
-    res = requests.post(url=url, data=data)
-    print(res)
+    res = requests.post(url = url , json = data )
+    print(res.text)
