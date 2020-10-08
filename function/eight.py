@@ -22,14 +22,15 @@ OPEN = []
 SUM_NODE_NUM = 0
 
 flag=0  #标记是否为第一次的位置
+flag_ans = 0 #是否找到目标状态
 operation = []    #操作序列
 xx=-1
 yy=-1
 cnt=0
 mark = 0
 #求目标状态
-def get_goal():    
-    arr0 = BLOCK
+def get_goal(block):    
+    arr0 = block
     new1 = []
     new2 = []
     
@@ -163,58 +164,31 @@ def swap(a,b,blo):
     start(blo,10000,10,10)
     
 #计算逆序对1
-def InversionNum(lst):
-    # 改写归并排序,在归并排序中，每当R部分元素先于L部分元素插入原列表时，逆序对数要加L剩余元素数
-    if len(lst) == 1:
-        return lst,0
-    else:
-        n = len(lst) // 2
-        lst1,count1 = InversionNum(lst[0:n])
-        lst2,count2 = InversionNum(lst[n:len(lst)])
-        lst,count = Count(lst1,lst2,0)
-        return lst,count1+count2+count
-#计算逆序对2
-def Count(lst1, lst2,count): 
-    i = 0
-    j = 0
-    res = []
-    while i < len(lst1) and j < len(lst2):
-        if lst1[i] <= lst2[j]:
-            res.append(lst1[i])
-            i += 1
-        else:
-            res.append(lst2[j])
-            count += len(lst1)-i # 当右半部分的元素先于左半部分元素进入有序列表时，逆序对数量增加左半部分剩余的元素数
-            j += 1
-    res += lst1[i:]
-    res += lst2[j:]
-    return res,count
+def inverse_number(arr):
+    ans = 0
+    for i in range(len(arr)):
+        for j in range(i):
+            if arr[j] > arr[i]:
+                ans += 1
+    return ans
 
-#计算逆序对3
-def check_reverse_pair(block1,block2):
-    arr1 = block1
-    array1 = []
-            
-    for i in range(3):
-        for j in range(3):
-            if arr1[i][j]!=0:
-                array1.append(arr1[i][j]);
-                
-    arr2 = block2
-    array2 = []
-            
-    for i in range(3):
-        for j in range(3):
-            if arr2[i][j]!=0:
-                array2.append(arr2[i][j]);
-                
-    x1,y1 = InversionNum(array1)
-    x2,y2 = InversionNum(array2)
+#计算逆序对2
+def Reverse_pair(block):
     
-    if  y1%2 != y2%2:
-        return False
+    arr0 = block
+    arr = []
+        
+    for i in range(3):
+        for j in range(3):
+            if arr0[i][j]!=0:
+                arr.append(arr0[i][j]);
+
+    print("逆序对：",inverse_number(arr))
+    if inverse_number(arr)%2==0:
+        return True;
     else:
-        return True
+        return False
+
 
 #自由交换
 free_change1 = 0    #自由交换的位置
@@ -246,21 +220,25 @@ def before_swap(block,step,a,b):
                     block[i][j],block[i-1][j]=block[i-1][j],block[i][j]
                     flag2 = 1
                     operation.append('da'*int(step/2)+'d')
+                    print('da'*int(step/2)+'d')
                     break
                 elif block[i][j]==0 and i+1<=2:
                     block[i][j],block[i+1][j]=block[i+1][j],block[i][j]
                     flag2 = 1
                     operation.append('ad'*int(step/2)+'a')
+                    print('ad'*int(step/2)+'a')
                     break
                 elif block[i][j]==0 and j-1>=0:
                     block[i][j],block[i][j-1]=block[i][j-1],block[i][j]
                     flag2 = 1
                     operation.append('sw'*int(step/2)+'s')
+                    print('sw'*int(step/2)+'s')
                     break
                 elif block[i][j]==0 and j+1<=2:
                     block[i][j],block[i][j+1]=block[i][j+1],block[i][j]
                     flag2 = 1
                     operation.append('ws'*int(step/2)+'w')
+                    print('ws'*int(step/2)+'w')
                     break
             if flag2 == 1:
                 break
@@ -270,23 +248,27 @@ def before_swap(block,step,a,b):
                 if block[i][j]==0 and i-1>=0:
                     flag2 = 1
                     operation.append('da'*int(step/2))
+                    print('da'*int(step/2))
                     break
                 elif block[i][j]==0 and i+1<=2:
                     flag2 = 1
                     operation.append('ad'*int(step/2))
+                    print('ad'*int(step/2))
                     break
                 elif block[i][j]==0 and j-1>=0:
                     flag2 = 1
                     operation.append('sw'*int(step/2))
+                    print('sw'*int(step/2))
                     break
                 elif block[i][j]==0 and j+1<=2:
                     flag2 = 1
                     operation.append('ws'*int(step/2))
+                    print('ws'*int(step/2))
                     break
             if flag2 == 1:
                 break
-        cnt += step
-        swap(a,b,block)
+    cnt += step
+    swap(a,b,block)
 
 def print_path(node,step,a,b):
     '''
@@ -316,23 +298,24 @@ def print_path(node,step,a,b):
                     '''
                     print(xx)
                     print(yy)
-                    '''                    
+                    print("flag_ans：",flag_ans)
+                    '''
                     if flag==0:
                         xx=i
                         yy=j
                         flag=1;
                     elif cnt!=step+2:
-                        if xx==i and yy>j:
-                            #print("a")
+                        if xx==i and yy>j and flag_ans==0:
+                            print("a")
                             operation.append("a")
-                        elif xx==i and yy<j:
-                            #print("d")
+                        elif xx==i and yy<j and flag_ans==0:
+                            print("d")
                             operation.append("d")
-                        elif xx<i and yy==j:
-                            #print("s")
+                        elif xx<i and yy==j and flag_ans==0:
+                            print("s")
                             operation.append("s")
-                        else:
-                            #print("w")
+                        elif xx>i and yy==j and flag_ans==0:
+                            print("w")
                             operation.append("w")
                     xx=i
                     yy=j
@@ -359,9 +342,10 @@ def print_path(node,step,a,b):
     while len(stack) != 0:
         t = stack.pop()
         show_block(t,step,a,b)
-        if mark==1 :
-            stack.clear()
-            
+        
+        if flag_ans ==1 or mark==1:
+            break
+        
     return num
 
 
@@ -409,16 +393,17 @@ def A_start(step,a,b,start, end, distance_fn, generate_child_fn, time_limit=10):
     return -1
 
     
-def start(BLOCK,step,a,b):    
+def start(BLOCK,step,a,b):
+    global cnt
     flag=0
     NUMBER = 3  #N的取值
-    GOAL = get_goal()
-
+    GOAL = get_goal(BLOCK)
+    print("GOAL:",GOAL)
     OPEN = []  # 这里别忘了清空
     #BLOCK = []
     #read_block(BLOCK, line, NUMBER)
     SUM_NODE_NUM = 0
-    if check_reverse_pair(BLOCK,GOAL):
+    if Reverse_pair(BLOCK):
         #print("有解")
         flag=0
         OPEN = []
@@ -446,9 +431,14 @@ def start(BLOCK,step,a,b):
         print("time = ", (end_t - start_t).total_seconds(), "s")
         print("Nodes =", SUM_NODE_NUM)
     '''
-    ans_operation = ','.join(operation)
+    ans_operation = ''.join(operation)
+    print("ans_operation：",ans_operation)
+    global flag_ans
+    flag_ans = 1
+    #print("flag_ans：",flag_ans)
     return ans_operation,free_change1,free_change2
 
 if __name__ == '__main__':
-    BLOCK = [[1, 3, 9], [2, 8, 0], [5, 6, 4]]
-    print(start(BLOCK,10,5,6))   #step=2,a=2,b=3
+    BLOCK = [[0, 1, 2], [6, 3, 7], [9, 5, 8]]
+    print(start(BLOCK,8,3,7))   #step=2,a=2,b=3
+
