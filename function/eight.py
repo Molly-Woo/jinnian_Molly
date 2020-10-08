@@ -9,7 +9,7 @@ import operator
 from functools import reduce
 import os
 
-BLOCK = [[2, 5, 0], [3, 4, 1], [7, 8,9]]  # 给定状态
+BLOCK = [[0,0,0],[0,0,0],[0,0,0]]  # 给定状态
 GOAL = [[0,0,0],[0,0,0],[0,0,0]]  # 目标状态
 
 # 4个方向
@@ -155,19 +155,11 @@ def generate_child(cur_node, end_node, hash_set, open_table, dis_fn):
 #强制交换
 def swap(a,b,blo):
     blo[int((a-1)/3)][(a-1)%3],blo[int((b-1)/3)][(b-1)%3]=blo[int((b-1)/3)][(b-1)%3],blo[int((a-1)/3)][(a-1)%3]
-<<<<<<< HEAD
     
     print("强制交换后 ： ")
     for i in blo:
         print(i)
     
-=======
-
-    print("强制交换后 ： ")
-    for i in blo:
-        print(i)
-
->>>>>>> 2ea8bbe7fffac1eabdb54d9fb027d99f59e7c0d1
     start(blo,10000,10,10)
     
 #计算逆序对1
@@ -237,19 +229,11 @@ def free_change(block0):
 
                 free_change1 = i*3+j+1
                 free_change2 = i*3+j+2
-<<<<<<< HEAD
                 
                 print("自由交换后 ：")
                 for i in block0:
                     print(i)
                    
-=======
-
-                print("自由交换后 ：")
-                for i in block0:
-                    print(i)
-
->>>>>>> 2ea8bbe7fffac1eabdb54d9fb027d99f59e7c0d1
                 return block0;
 #强制交换前                
 def before_swap(block,step,a,b):
@@ -319,19 +303,11 @@ def print_path(node,step,a,b):
         global yy
         global cnt
         global mark
-<<<<<<< HEAD
         
         print("---------------")
         for b0 in block:
             print(b0)
         
-=======
-
-        print("---------------")
-        for b0 in block:
-            print(b0)
-
->>>>>>> 2ea8bbe7fffac1eabdb54d9fb027d99f59e7c0d1
         cnt+=1
         #输出操作序列
         for i in range(3):
@@ -447,7 +423,6 @@ def start(BLOCK,step,a,b):
         flag=0
         OPEN = []
     else:
-<<<<<<< HEAD
         
         print("无解")
         if cnt == 0:
@@ -459,16 +434,6 @@ def start(BLOCK,step,a,b):
             BLOCK=free_change(BLOCK)
             flag=0
             OPEN = [];
-=======
-
-        print("无解")
-        print("自由交换前 ： ")
-        print(BLOCK)
-
-        BLOCK=free_change(BLOCK)
-        flag=0
-        OPEN = [];
->>>>>>> 2ea8bbe7fffac1eabdb54d9fb027d99f59e7c0d1
     '''
     start_t = datetime.datetime.now()
     '''
@@ -481,12 +446,9 @@ def start(BLOCK,step,a,b):
         print("time = ", (end_t - start_t).total_seconds(), "s")
         print("Nodes =", SUM_NODE_NUM)
     '''
-    return operation,free_change1,free_change2
+    ans_operation = ','.join(operation)
+    return ans_operation,free_change1,free_change2
 
 if __name__ == '__main__':
-<<<<<<< HEAD
     BLOCK = [[1, 3, 9], [2, 8, 0], [5, 6, 4]]
     print(start(BLOCK,10,5,6))   #step=2,a=2,b=3
-=======
-    print(start(BLOCK,2,2,3))   #step=2,a=2,b=3
->>>>>>> 2ea8bbe7fffac1eabdb54d9fb027d99f59e7c0d1
