@@ -14,7 +14,9 @@ def sendpicture(thepath , theswap , theuuid) :
     answer = {}
     answer["operations"] = thepath
     answer["swap"] = theswap
-
+    print (theswap)
+    if theswap[0] == theswap[1] and theswap[0] == 0 :
+        answer["swap"] = []
     data = {}
     data["uuid"] = theuuid
     data["answer"] = answer
