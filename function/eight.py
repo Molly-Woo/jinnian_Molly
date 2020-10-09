@@ -160,7 +160,7 @@ def swap(a,b,blo):
     print("强制交换后 ： ")
     for i in blo:
         print(i)
-    
+    flag = 0
     start(blo,10000,10,10)
     
 #计算逆序对1
@@ -207,7 +207,7 @@ def free_change(block0):
                 print("自由交换后 ：")
                 for i in block0:
                     print(i)
-                   
+                flag = 1   
                 return block0;
 #强制交换前                
 def before_swap(block,step,a,b):
@@ -219,26 +219,26 @@ def before_swap(block,step,a,b):
                 if block[i][j]==0 and i-1>=0:
                     block[i][j],block[i-1][j]=block[i-1][j],block[i][j]
                     flag2 = 1
-                    operation.append('da'*int(step/2)+'d')
-                    print('da'*int(step/2)+'d')
+                    operation.append('ws'*int(step/2)+'w')
+                    print('ws'*int(step/2)+'d')
                     break
                 elif block[i][j]==0 and i+1<=2:
                     block[i][j],block[i+1][j]=block[i+1][j],block[i][j]
                     flag2 = 1
-                    operation.append('ad'*int(step/2)+'a')
-                    print('ad'*int(step/2)+'a')
+                    operation.append('sw'*int(step/2)+'s')
+                    print('sw'*int(step/2)+'a')
                     break
                 elif block[i][j]==0 and j-1>=0:
                     block[i][j],block[i][j-1]=block[i][j-1],block[i][j]
                     flag2 = 1
-                    operation.append('sw'*int(step/2)+'s')
-                    print('sw'*int(step/2)+'s')
+                    operation.append('ad'*int(step/2)+'a')
+                    print('ad'*int(step/2)+'s')
                     break
                 elif block[i][j]==0 and j+1<=2:
                     block[i][j],block[i][j+1]=block[i][j+1],block[i][j]
                     flag2 = 1
-                    operation.append('ws'*int(step/2)+'w')
-                    print('ws'*int(step/2)+'w')
+                    operation.append('da'*int(step/2)+'d')
+                    print('da'*int(step/2)+'w')
                     break
             if flag2 == 1:
                 break
@@ -247,23 +247,23 @@ def before_swap(block,step,a,b):
             for j in range(0,3):
                 if block[i][j]==0 and i-1>=0:
                     flag2 = 1
-                    operation.append('da'*int(step/2))
-                    print('da'*int(step/2))
+                    operation.append('ws'*int(step/2))
+                    print('ws'*int(step/2))
                     break
                 elif block[i][j]==0 and i+1<=2:
-                    flag2 = 1
-                    operation.append('ad'*int(step/2))
-                    print('ad'*int(step/2))
-                    break
-                elif block[i][j]==0 and j-1>=0:
                     flag2 = 1
                     operation.append('sw'*int(step/2))
                     print('sw'*int(step/2))
                     break
+                elif block[i][j]==0 and j-1>=0:
+                    flag2 = 1
+                    operation.append('ad'*int(step/2))
+                    print('ad'*int(step/2))
+                    break
                 elif block[i][j]==0 and j+1<=2:
                     flag2 = 1
-                    operation.append('ws'*int(step/2))
-                    print('ws'*int(step/2))
+                    operation.append('da'*int(step/2))
+                    print('da'*int(step/2))
                     break
             if flag2 == 1:
                 break
