@@ -160,6 +160,7 @@ def swap(a,b,blo):
     print("强制交换后 ： ")
     for i in blo:
         print(i)
+    global flag
     flag = 0
     start(blo,10000,10,10)
     
@@ -196,6 +197,7 @@ free_change2 = 0
 def free_change(block0):
     global free_change1
     global free_change2
+    global flag
     for i in range(0,3):
         for j in range(0,2):
             if block0[i][j]!=0 and block0[i][j+1]!=0 and j+1<3:
@@ -207,7 +209,8 @@ def free_change(block0):
                 print("自由交换后 ：")
                 for i in block0:
                     print(i)
-                flag = 1   
+                
+                flag = 0 
                 return block0;
 #强制交换前                
 def before_swap(block,step,a,b):
@@ -300,6 +303,7 @@ def print_path(node,step,a,b):
                     print(yy)
                     print("flag_ans：",flag_ans)
                     '''
+                    print("flag：",flag)
                     if flag==0:
                         xx=i
                         yy=j
@@ -439,6 +443,6 @@ def start(BLOCK,step,a,b):
     return ans_operation,free_change1,free_change2
 
 if __name__ == '__main__':
-    BLOCK = [[0, 1, 2], [6, 3, 7], [9, 5, 8]]
-    print(start(BLOCK,8,3,7))   #step=2,a=2,b=3
+    BLOCK = [[0, 5, 1], [9, 3, 6], [2, 4, 8]]
+    print(start(BLOCK,8,6,3))   #step=2,a=2,b=3
 
