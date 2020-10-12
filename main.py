@@ -6,7 +6,7 @@ import base64
 from PIL import Image
 
 if __name__ == '__main__':
-    get_data = gs_function.getpicture()
+    get_data = gs_function.getpicture()#从接口获取图片
     step = get_data['step']
     swap = get_data['swap']
     uuid = get_data['uuid']
@@ -15,11 +15,11 @@ if __name__ == '__main__':
     image_json.write(image_byte)
     image_json.close()
 
-    image = Image.open('a.jpg')
+    image = Image.open('a.jpg')#对图片进行切割
     image_list = cut_function.cut_image(image)
     cut_function.save_images(image_list, ord('a'))
 
-    path_test = "./test/"
+    path_test = "./test/"#查找可以与图片相匹配的字符
     path_suffix = ".png"
     path_file = "picture/"
     picture_order = 0
@@ -38,7 +38,7 @@ if __name__ == '__main__':
             break
 
     targets = []
-    for i in range(ord("a"), ord("i") + 1):
+    for i in range(ord("a"), ord("i") + 1):#匹配图片和字符块，得到图片排列顺序
         path1 = path_test + chr(i) + path_suffix
         flag = 0
         for j in range(picture_order * 9 , picture_order * 9 + 9):
@@ -57,16 +57,12 @@ if __name__ == '__main__':
         for j in range (0 , 3) :
             block[i].append(targets[i * 3 + j])
 
-    print(block)
-    print(step)
-    print(swap)
-    result = eight_function.start(block, step, swap[0], swap[1])
+    result = eight_function.start(block, step, swap[0], swap[1])#调用A*算法，获取路径
     print(result)
 
-    #result_path = ['a','b','d']
     result_path = result[0]
     result_path = "".join(result_path)
     result_swap = []
     result_swap.append(result[1])
     result_swap.append(result[2])
-    gs_function.sendpicture(result_path, result_swap, uuid)
+    gs_function.sendpicture(result_path, result_swap, uuid)#从接口提交路径答案
