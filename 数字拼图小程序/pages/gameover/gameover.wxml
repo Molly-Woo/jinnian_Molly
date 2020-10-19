@@ -1,0 +1,22 @@
+<view class = "box">
+<view class = "box-heigh">
+    <view class = "b1 box-left"></view>
+    <view class = "b2 box-mmmm"></view>
+    <view class = "box-right b3"></view>
+</view>
+<view class = "box-midum">
+    <view class = "box-left b4"></view>
+    <view class = "boxin box-mmmm b5">
+        <view class = "title">游戏通关!</view>
+        <view class = "grade">本次成绩：{{step}}</view>
+        <view class = "grade">最佳成绩：{{hscore}}</view>
+    </view>
+    <view class = "box-right borderr b6"></view>
+</view>
+<view class = "box-bottem">
+    <view class = "box-left borderr b7"></view>
+    <view class = "box-mmmm borderr b8"></view>
+    <view class = "box-right borderr b9"></view>
+</view>
+</view>
+<view bindtap="returnGame" class="f_center game" >返回游戏</view>

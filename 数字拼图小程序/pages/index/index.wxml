@@ -1,0 +1,18 @@
+<view class = "top" >
+	<view class="infor">  步 数 ：{{step}}</view>
+	<view class="infor">  耗 时 ：{{m}}:{{s}}</view>
+</view>
+<view class = "reminder">目标状态</view>
+<view class = "theborder">
+<view class="container" >
+    <block wx:for='{{numData}}' wx:key='{{index}}'>
+        <image wx:if="{{!item.isEmpty}}"  catchtouchstart="goMove" data-index='{{index}}' class="v1" src="../../images/fangkuai.png">
+            <view class="f_center">{{item.num}}</view>
+        </image>
+        <!-- 空格 -->
+        <view wx:if='{{item.isEmpty}}' class="v2"></view>
+    </block>
+</view>
+</view>
+<view bindtap="goGame" class="f_center game" wx:if="{{!isStart}}">开 始 游 戏</view>
+<view bindtap="reset" class="f_center reset" wx:if="{{isStart}}">重 置</view>
